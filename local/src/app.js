@@ -58,14 +58,14 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
       else if (note == 2) synth.synth.setDecay(3 * (vel) / 128.0);
     });
 
-    /*var oscScope = new scope.scope(analyser, µ('#scope'));
+    var oscScope = new scope.scope(analyser, µ('#scope'));
 
     function draw() {
       oscScope.draw();
       requestAnimationFrame(draw);
     }
 
-    draw();*/
+    draw();
 
     document.onkeyup = (e)=> {
       var electron = require('electron');
