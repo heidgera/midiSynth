@@ -9,9 +9,9 @@ curl -sL https://deb.nodesource.com/setup_8.x | sudo -E bash -
 
 echo "\nClone the application"
 
-git clone https://github.com/scimusmn/template.git
+git clone https://github.com/heidgera/midiSynth.git
 
-cd waterWallClient
+cd midiSynth
 
 echo "\nInit the submodules:"
 
