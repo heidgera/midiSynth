@@ -67,6 +67,14 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
 
     draw();*/
 
+    document.onkeyup = (e)=> {
+      var electron = require('electron');
+      if (e.which == 27) {
+        valves.allOff();
+        electron.remote.process.exit();
+      }
+    };
+
     console.log('started');
   };
 
