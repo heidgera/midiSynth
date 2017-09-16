@@ -1,4 +1,4 @@
-var obs = ['./src/hotspot.js', './src/wifi.js', './src/autostart.js', './config.js', 'fs'];
+var obs = ['./src/hotspot.js', './src/wifi.js', './src/autostart.js', '/boot/piConfig.js', 'fs'];
 
 obtain(obs, (hotspot, wifi, auto, { config }, fs)=> {
   var pfg = config.piFig;
