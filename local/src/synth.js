@@ -47,7 +47,7 @@ obtain(['µ/utilities.js'], (utils)=> {
       note.gain.gain.value = 0;
       note.osc.frequency.value = 0;
       note.attack = (vel)=> {
-        console.log(vel);
+        //console.log(vel);
         let now = audio.currentTime;
         note.gain.gain.cancelScheduledValues(now);
         note.gain.gain.linearRampToValueAtTime(vel, now + attackTime);
