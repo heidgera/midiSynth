@@ -40,21 +40,10 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
             analyserNote.gain.connect(analyser);
           }
         } else Synth.release(note);
-
-        /*if (vel) {
-          notes[note - 48].attack(vel);
-
-          // analyser
-          if (analyserNote) analyserNote.gain.disconnect(analyser);
-          analyserNote = notes[note - 48];
-          analyserNote.gain.connect(analyser);
-        } else {
-          notes[note - 48].decay();
-        }*/
       }
     });
     midi.in.setControlHandler((note, vel)=> {
-      if (note > 2) {
+      if (note > 2 && note < 8) {
         /*if (note % 2) synth.real[(note + 1) / 2] = (vel) / 128.0;
         else synth.imag[(note) / 2] = (vel) / 128.0;*/
         synth.real[note - 1] = (vel) / 128.0;
@@ -64,6 +53,14 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
         //harmonics.setLevel(note - 3, vel / 128.);
       } else if (note == 1) Synth.setAttack((vel) / 128.0);
       else if (note == 2) Synth.setDecay(3 * (vel) / 128.0);
+
+      console.log(note);
+      if (note == 17) {
+        µ('#song').currentTime = 0;
+        µ('#song').play();
+      } else if (note == 16) {
+        µ('#song').pause();
+      }
     });
 
     var oscScope = new scope.scope(analyser, µ('#scope'));
