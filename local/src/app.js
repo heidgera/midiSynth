@@ -1,12 +1,12 @@
 'use strict';
 
-var obtains = ['µ/midi.js', './src/scope.js', './src/synth.js']; //, 'µ/piFig/piFig.js'
+var obtains = ['µ/midi.js', './src/scope.js', './src/synth2.js']; //, 'µ/piFig/piFig.js'
 
 obtain(obtains, (midi, scope, synth, piFig)=> {
   exports.app = {};
 
   var audio = synth.audioCtx;
-  var notes = synth.synth.notes;
+  var Synth = synth.synth;
   var harmonics = synth.harmonics;
 
   var analyser = audio.createAnalyser();
@@ -28,12 +28,20 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
     };
 
     midi.in.setNoteHandler((note, vel)=> {
-      if (note >= 48 && note < 80) {
+      if (note >= 0 && note < 80) {
         vel = vel / 256;
 
-        notes[note - 48].set(note);
-
+        //notes[note - 48].set(note);
         if (vel) {
+          var noteNode = Synth.set(note, vel);
+          if (noteNode) {
+            if (analyserNote) analyserNote.gain.disconnect(analyser);
+            analyserNote = noteNode;
+            analyserNote.gain.connect(analyser);
+          }
+        } else Synth.release(note);
+
+        /*if (vel) {
           notes[note - 48].attack(vel);
 
           // analyser
@@ -42,7 +50,7 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
           analyserNote.gain.connect(analyser);
         } else {
           notes[note - 48].decay();
-        }
+        }*/
       }
     });
     midi.in.setControlHandler((note, vel)=> {
@@ -51,11 +59,11 @@ obtain(obtains, (midi, scope, synth, piFig)=> {
         else synth.imag[(note) / 2] = (vel) / 128.0;*/
         synth.real[note - 1] = (vel) / 128.0;
 
-        synth.synth.regenWaveform();
+        Synth.regenWaveform();
 
         //harmonics.setLevel(note - 3, vel / 128.);
-      } else if (note == 1) synth.synth.setAttack((vel) / 128.0);
-      else if (note == 2) synth.synth.setDecay(3 * (vel) / 128.0);
+      } else if (note == 1) Synth.setAttack((vel) / 128.0);
+      else if (note == 2) Synth.setDecay(3 * (vel) / 128.0);
     });
 
     var oscScope = new scope.scope(analyser, µ('#scope'));
